@@ -21,6 +21,9 @@ TMDevID=`echo "$HDUtilOutput" | awk '/Apple_HFS/{gsub("Apple_HFSX","");gsub("App
 NOfAppleHFS=`echo "$HDUtilOutput" | grep -c "Apple_HFS*"`
 if [[ "$NOfAppleHFS" -ne "1" ]]
     echo "!!! More than one Apple_HFS or Apple_HFSX volumes present. Cannot decide which one to use. Emergency stop."
+    if (whoami = root)
+        tmutil enable
+    fi
     exit 1
 fi
 unset NOfAppleHFS
