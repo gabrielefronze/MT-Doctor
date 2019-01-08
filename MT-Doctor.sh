@@ -8,8 +8,10 @@ SBBasePath="/Volumes/TM.gfronze"
 SBName="Gabrieles MacBook Pro.sparsebundle"
 SBFullPath="/Volumes/TM.gfronze/Gabrieles MacBook Pro.sparsebundle"
 
-echo -e "\n** Stopping TimeMachine® service..."
-tmutil disable
+if (whoami = root)
+    echo -e "\n** Stopping TimeMachine® service..."
+    tmutil disable
+fi
 
 echo -e "\n** Modifying file flags to unlock the backup file..."
 chflags -v nouchg "$SBFullPath"
@@ -45,8 +47,11 @@ diff "$SBFullPath/com.apple.TimeMachine.MachineID.emmet" "$SBFullPath/com.apple.
 echo -e "\n** Detaching the TimeMachine® volume"
 hdutil detach "$TMDevID"
 
-echo -e "\n** Restarting TimeMachine® service..."
-tmutil enable
+if (whoami = root)
+    echo -e "\n** Restarting TimeMachine® service and executing backup..."
+    tmutil enable
+    tmutil startbackup
+fi
 
 unset SBBasePath
 unset SBName
