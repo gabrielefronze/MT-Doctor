@@ -4,7 +4,7 @@ echo "I am MT-Doctor, the TimeMachine® Doctor (hopefully you get the reference 
 echo "This script tries to recover an Apple® TimeMachine sparsebundle corrupted by (malicious?) networking or power glitches."
 echo -e "\nIMPORTANT: for security reasons this script assumes the volume where the sparsebundle file is located is already connected to this machine (wheter it is an external hard disk or a NAS)"
 
-read -e -p "** Enter TimeMachine sparsebundle path: " $SBFullPath
+read -e -p "** Enter TimeMachine sparsebundle path: " SBFullPath
 
 if (whoami = root); then
     echo -e "\n** Stopping TimeMachine® service..."
@@ -54,5 +54,8 @@ if (whoami = root)
     tmutil enable
     tmutil startbackup
 fi
+
+unset TMDevID
+unset SBFullPath
 
 exit 0
