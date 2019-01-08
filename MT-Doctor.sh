@@ -27,7 +27,7 @@ unset NOfAppleHFS
 unset HDUtilOutput
 echo -e "\n** Device ID is: $TMDevID"
 
-echo -e "\n** Executing repair procedure on sparsebundle image... (this will take some time and 2GB of RAM)"
+echo -e "\n** Executing repair procedure on sparsebundle image... (this will take around 1h per 100GB)"
 diskutil repairVolume `echo $TMDevID`
 
 echo -e "\n** Removing backup TimeMachine® .plist outcome..."
@@ -38,6 +38,8 @@ numl=`grep -n "<key>RecoveryBackupDeclinedDate</key>" "$SBFullPath/com.apple.Tim
 mv "$SBFullPath/com.apple.TimeMachine.MachineID.plist" "$SBFullPath/com.apple.TimeMachine.MachineID.emmet"
 awk '{gsub(/\<integer\>2\<\/integer\>/,"\t\<integer\>0\<\/integer\>",$1);print}' "$SBFullPath/com.apple.TimeMachine.MachineID.emmet" | sed "${numl}d" |  sed "${numl}d" >> "$SBFullPath/com.apple.TimeMachine.MachineID.plist"
 unset numl
+
+echo -e "\n** Showing the diff between old and new .plist file..."
 diff "$SBFullPath/com.apple.TimeMachine.MachineID.emmet" "$SBFullPath/com.apple.TimeMachine.MachineID.plist"
 
 echo -e "\n** Detaching the TimeMachine® volume"
