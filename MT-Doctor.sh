@@ -6,7 +6,7 @@ echo -e "\nIMPORTANT: for security reasons this script assumes the volume where 
 
 read -e -p "** Enter TimeMachine sparsebundle path: " $SBFullPath
 
-if (whoami = root)
+if (whoami = root); then
     echo -e "\n** Stopping TimeMachine® service..."
     tmutil disable
 fi
@@ -19,9 +19,10 @@ echo -e "\n** Attaching the sparsebundle as a disk and getting the Apple_HFS dev
 HDUtilOutput=`hdiutil attach -nomount -readwrite -noverify -noautofsck /Volumes/TM.gfronze/Gabrieles\ MacBook\ Pro.sparsebundle`
 TMDevID=`echo "$HDUtilOutput" | awk '/Apple_HFS/{gsub("Apple_HFSX","");gsub("Apple_HFS","");gsub(" ","");print}'`
 NOfAppleHFS=`echo "$HDUtilOutput" | grep -c "Apple_HFS*"`
-if [[ "$NOfAppleHFS" -ne "1" ]]
+
+if [[ "$NOfAppleHFS" -ne "1" ]]; then
     echo "!!! More than one Apple_HFS or Apple_HFSX volumes present. Cannot decide which one to use. Emergency stop."
-    if (whoami = root)
+    if (whoami = root); then
         tmutil enable
     fi
     exit 1
