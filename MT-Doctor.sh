@@ -19,10 +19,10 @@ echo -e "\n** Attaching the sparsebundle as a disk and getting the Apple_HFS dev
 HDUtilOutput=`hdiutil attach -nomount -readwrite -noverify -noautofsck /Volumes/TM.gfronze/Gabrieles\ MacBook\ Pro.sparsebundle`
 TMDevID=`echo "$HDUtilOutput" | awk '/Apple_HFS/{gsub("Apple_HFSX","");gsub("Apple_HFS","");gsub(" ","");print}'`
 NOfAppleHFS=`echo "$HDUtilOutput" | grep -c "Apple_HFS*"`
-# if [[ "$NOfAppleHFS" -ne "1" ]]
-#     echo "!!! More than one Apple_HFS or Apple_HFSX volumes present. Cannot decide which one to use. Emergency stop."
-#     exit 1
-# fi
+if [[ "$NOfAppleHFS" -ne "1" ]]
+    echo "!!! More than one Apple_HFS or Apple_HFSX volumes present. Cannot decide which one to use. Emergency stop."
+    exit 1
+fi
 unset NOfAppleHFS
 unset HDUtilOutput
 echo -e "\n** Device ID is: $TMDevID"
