@@ -25,7 +25,7 @@ if [[ "$NOfAppleHFS" -ne "1" ]]; then
     if (whoami = root); then
         tmutil enable
     fi
-    exit 1
+    return 1
 fi
 unset NOfAppleHFS
 unset HDUtilOutput
@@ -49,7 +49,7 @@ diff "$SBFullPath/com.apple.TimeMachine.MachineID.emmet" "$SBFullPath/com.apple.
 echo -e "\n** Detaching the TimeMachine® volume"
 hdutil detach "$TMDevID"
 
-if (whoami = root)
+if (whoami = root); then
     echo -e "\n** Restarting TimeMachine® service and executing backup..."
     tmutil enable
     tmutil startbackup
@@ -58,4 +58,4 @@ fi
 unset TMDevID
 unset SBFullPath
 
-exit 0
+return 0
